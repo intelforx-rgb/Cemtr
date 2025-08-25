@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { UserRole } from '../types';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyD-VuzjoltDtX8Kw_inxDOpZ_xohYi7MFk';
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 if (!API_KEY) {
   throw new Error('GEMINI_API_KEY is not configured. Please set VITE_GEMINI_API_KEY in your environment variables.');
