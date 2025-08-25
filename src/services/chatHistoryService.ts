@@ -14,12 +14,12 @@ export class ChatHistoryService {
       chatData.messages.find(m => m.role === 'user')?.content.substring(0, 30) + '...' || 
       'New Chat';
 
-    // Create new chat history
+    // Create new chat history with role information
     const newHistory: ChatHistory = {
       id: `chat_${Date.now()}`,
       title,
       messages: chatData.messages,
-      role: chatData.role,
+      role: chatData.role, // Store which role was used for this conversation
       createdAt: new Date(),
       lastUpdated: new Date()
     };

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Shield, ArrowLeft, RefreshCw, CheckCircle } from 'lucide-react';
 
 interface OTPVerificationProps {
-  mobile: string;
+  email: string;
   onVerify: (otp: string) => Promise<boolean>;
   onResend: () => Promise<void>;
   onBack: () => void;
@@ -11,7 +11,7 @@ interface OTPVerificationProps {
 }
 
 export const OTPVerification: React.FC<OTPVerificationProps> = ({
-  mobile,
+  email,
   onVerify,
   onResend,
   onBack,
@@ -140,8 +140,8 @@ export const OTPVerification: React.FC<OTPVerificationProps> = ({
             <Shield className="text-white w-8 h-8" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">🔐 OTP Verification</h1>
-          <p className="text-slate-300">Enter the 6-digit code sent to</p>
-          <p className="text-yellow-400 font-bold">{mobile}</p>
+          <p className="text-slate-300">Enter verification code sent to your email:</p>
+          <p className="text-yellow-400 font-bold">{email}</p>
         </div>
 
         {/* Demo OTP Display */}
@@ -196,6 +196,9 @@ export const OTPVerification: React.FC<OTPVerificationProps> = ({
                 Resend OTP
               </button>
             )}
+            <p className="text-slate-500 text-xs mt-2">
+              Didn't receive email? Check spam folder
+            </p>
           </div>
 
           {/* Verify Button */}

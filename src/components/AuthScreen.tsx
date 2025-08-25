@@ -12,7 +12,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
   const { register, login, sendOTP, verifyOTP, isLoading, error, clearError } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showOTP, setShowOTP] = useState(false);
-  const [pendingMobile, setPendingMobile] = useState('');
+  const [pendingEmail, setPendingEmail] = useState('');
   const [pendingUserData, setPendingUserData] = useState<RegisterData | null>(null);
   const [demoOTP, setDemoOTP] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -47,12 +47,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
       
       const success = await login(credentials);
       if (success) {
-        // Send OTP for login verification
+        // Send Email OTP for login verification
         const user = JSON.parse(localStorage.getItem('cemtras_current_user') || '{}');
-        if (user.mobile) {
-          const otpResponse = await sendOTP(user.mobile);
+        if (user.email) {
+          const otpResponse = await sendOTP(user.email);
           if (otpResponse.success) {
-            setPendingMobile(user.mobile);
+            setPendingEmail(user.email);
             setDemoOTP(otpResponse.otp || '');
             setShowOTP(true);
           }
@@ -71,11 +71,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
         password: formData.password
       };
       
-      // Send OTP first
-      const otpResponse = await sendOTP(formData.mobile);
+      // Send Email OTP first
+      const otpResponse = await sendOTP(formData.email);
       if (otpResponse.success) {
         setPendingUserData(userData);
-        setPendingMobile(formData.mobile);
+        setPendingEmail(formData.email);
         setDemoOTP(otpResponse.otp || '');
         setShowOTP(true);
       }
@@ -83,7 +83,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
   };
 
   const handleOTPVerify = async (otp: string): Promise<boolean> => {
-    const isValid = await verifyOTP(pendingMobile, otp);
+    const isValid = await verifyOTP(pendingEmail, otp);
     
     if (isValid) {
       if (pendingUserData) {
@@ -104,7 +104,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
   };
 
   const handleOTPResend = async (): Promise<void> => {
-    const otpResponse = await sendOTP(pendingMobile);
+    const otpResponse = await sendOTP(pendingEmail);
     if (otpResponse.success) {
       setDemoOTP(otpResponse.otp || '');
     }
@@ -112,7 +112,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
 
   const handleOTPBack = () => {
     setShowOTP(false);
-    setPendingMobile('');
+    setPendingEmail('');
     setPendingUserData(null);
     setDemoOTP('');
   };
@@ -120,7 +120,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onComplete }) => {
   if (showOTP) {
     return (
       <OTPVerification
-        mobile={pendingMobile}
+        email={pendingEmail}
         onVerify={handleOTPVerify}
         onResend={handleOTPResend}
         onBack={handleOTPBack}

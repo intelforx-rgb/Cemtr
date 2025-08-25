@@ -64,7 +64,7 @@ const roles: {
     icon: <Bot size={18} />, 
     color: 'border-purple-500 bg-purple-50 text-purple-700',
     description: 'General purpose AI for any questions',
-    requiresAuth: true
+    requiresAuth: true // Only show for authenticated users
   },
 ];
 

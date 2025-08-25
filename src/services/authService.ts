@@ -9,39 +9,41 @@ export class AuthService {
     return Math.floor(100000 + Math.random() * 900000).toString();
   }
 
-  // Mock OTP sending service
-  static async sendOTP(mobile: string): Promise<OTPResponse> {
+  // Mock Email OTP sending service
+  static async sendOTP(email: string): Promise<OTPResponse> {
     const otp = this.generateOTP();
     const expires = Date.now() + 60000; // 1 minute expiry
     
-    this.otpStore.set(mobile, { otp, expires });
+    this.otpStore.set(email, { otp, expires });
     
-    // Log OTP to console for demo purposes
-    console.log(`🔐 OTP sent to ${mobile}: ${otp}`);
+    // Log OTP to console and show alert for demo purposes
+    console.log(`📧 Email OTP sent to ${email}: ${otp}`);
+    alert(`Demo Mode - OTP sent to ${email}\nYour verification code: ${otp}\n(In production, this would be sent via email)`);
     
     return {
       success: true,
-      message: `OTP sent to ${mobile}`,
+      message: `Verification code sent to ${email}`,
       otpSent: true,
-      otp // Include for demo purposes
+      otp, // Include for demo purposes
+      sentTo: email
     };
   }
 
   // Verify OTP
-  static async verifyOTP(mobile: string, otp: string): Promise<boolean> {
-    const stored = this.otpStore.get(mobile);
+  static async verifyOTP(email: string, otp: string): Promise<boolean> {
+    const stored = this.otpStore.get(email);
     
     if (!stored) {
       return false;
     }
 
     if (Date.now() > stored.expires) {
-      this.otpStore.delete(mobile);
+      this.otpStore.delete(email);
       return false;
     }
 
     if (stored.otp === otp) {
-      this.otpStore.delete(mobile);
+      this.otpStore.delete(email);
       return true;
     }
 

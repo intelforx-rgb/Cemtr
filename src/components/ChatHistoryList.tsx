@@ -37,13 +37,13 @@ const getRoleColor = (role: UserRole | 'General AI') => {
 
 const getRoleEmoji = (role: UserRole | 'General AI') => {
   switch (role) {
-    case 'Operations': return '🏭';
-    case 'Project Management': return '📊';
-    case 'Sales & Marketing': return '📈';
-    case 'Procurement': return '🛒';
-    case 'Erection & Commissioning': return '🔧';
-    case 'Engineering & Design': return '⚙️';
-    case 'General AI': return '🤖';
+    case 'Operations': return '🏭'; // Operations & Maintenance
+    case 'Project Management': return '📊'; // Project Management
+    case 'Sales & Marketing': return '📈'; // Sales & Marketing
+    case 'Procurement': return '🛒'; // Procurement & Supply Chain
+    case 'Erection & Commissioning': return '🔧'; // Erection & Commissioning
+    case 'Engineering & Design': return '⚙️'; // Engineering & Design
+    case 'General AI': return '🤖'; // General AI
     default: return '💬';
   }
 };
